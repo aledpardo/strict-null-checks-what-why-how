@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "module": "esnext",
+    "noImplicitAny": true,
+    "outDir": "./dist",
+    "target": "es2020",
+    "types": [
+      "node"
+    ]
+  }
+}
