@@ -30,8 +30,9 @@ before your `git commit "add fancy feature"` command.
 From the official [Typescript Docs](https://www.typescriptlang.org/tsconfig#strictNullChecks),
 we read:
 
-> When strictNullChecks is false, null and undefined are **effectively ignored**
-**by the language**. This can lead to unexpected errors at runtime.
+> When `strictNullChecks` is `false`, the types `null` and `undefined` are
+**effectively ignored by the language**. This can lead to unexpected errors at
+runtime.
 
 Consider below source:
 
@@ -58,7 +59,7 @@ const aCompany {
 const logAge = (entity: Entity) => console.log(entity.name + " is " + age.toString() + " years old");
 
 logAge(aPerson); // John Doe is 39 years old
-logAge(aCompany); // XPTO Inc. is undefined years old
+logAge(aCompany); // Runtime error
 ```
 
 ### What are the problems with `strictNullChecks` set to `false`?
@@ -70,10 +71,19 @@ logAge(aCompany); // XPTO Inc. is undefined years old
 ### What can be done to prevent these problems without enabling it?
 
 1. Check it by yourself, without any tool (error prone)
-1. Ask you team to check it as well (good luck)
+1. Ask your team to check it as well (good luck)
 1. Enable an akin ESLint rule
 
 ## Part 2: Why
+
+### Why enabling is a good idea?
+
+1. Type safety enables speed
+   1. With the right types, less error prone code is written, increasing trust of the team
+1. Fail fast, refactor even faster
+   1. Capturing problems early on allows developers to rework, prevent issues
+   to go down the pipeline
+1. Reduced cost of maintenance
 
 ### Why not enabling is not an idea?
 
@@ -81,11 +91,39 @@ logAge(aCompany); // XPTO Inc. is undefined years old
 
 ### How to enable `strictNullChecks` on a large project
 
+1. Establish a process with the team
+1. Use tooling to assist the migration
+
+```json
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true
+  },
+  "files": [
+    // Files strict null checked goes here
+  ],
+  "exclude": [
+    // Files that are not the primary focus, like tests
+    // Files with big number of null check erros might require special attention
+  ]
+}
+```
+
 ### How to ensure fixed files remains fixed?
+
+1. Have NPM scripts to check it locally (adhoc and precommit hook)
+1. Add a step to run a build with `strictNullChecks` in CI
+1. Don't let the ball drop
+
+### Exploring a sample repo
+
+### Exploring tooling
 
 ### How to ensure new files are included in `strictNullChecks`?
 
 ### How to ensure touched files have their errors fixed?
 
 ### How to deal with files with too many errors?
-
