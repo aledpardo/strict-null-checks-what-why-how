@@ -5,7 +5,7 @@
       "DOM",
       "ESNext"
     ],
-    "module": "esnext",
+    "module": "CommonJS",
     "noImplicitAny": true,
     "target": "es2020",
     "types": [
